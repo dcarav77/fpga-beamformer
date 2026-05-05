@@ -1,0 +1,16 @@
+# Vivado build/output
+build/
+*.jou
+*.log
+*.str
+*.cache
+*.hw
+*.sim
+*.runs
+*.xpr
+
+# OS junk
+.DS_Store
+
+# Personal notes (adjust if needed)
+*Explain.txt
