@@ -76,13 +76,13 @@ module tb_blinky;
         reset  = 1;
         enable = 0;
         
-        #20ns;  // Hold reset for 20ns
+        #20ns;  
         reset = 0;
         
-        #10ns;  // Wait 10ns then enable
+        #10ns;  
         enable = 1;
 
-        #200ns;  // Run for 200ns then finish
+        #200ns;  
         $finish;
     end
 

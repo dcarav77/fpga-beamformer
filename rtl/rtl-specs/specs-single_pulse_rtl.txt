@@ -1,0 +1,7 @@
+reset = clears everything
+trigger = starts pulse only if not busy
+pulse = HIGH for exactly 1000 cycles
+counter = counts only while active
+terminal_count = counter == 999
+busy = HIGH while pulse is active
+retrigger during busy = ignored

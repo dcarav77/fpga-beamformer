@@ -1,0 +1,7 @@
+reset works
+trigger starts pulse
+pulse stays high for 1000 cycles
+pulse goes low after terminal count
+busy high during pulse
+trigger during busy is ignored
+second trigger after done works
