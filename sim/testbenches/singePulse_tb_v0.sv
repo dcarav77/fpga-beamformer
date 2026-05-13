@@ -87,7 +87,7 @@ module tb_singlePulse;
         #20;
         trigger = 0;
 
-        #200;
+        #11000; //was #200
         $finish;
     end
 
