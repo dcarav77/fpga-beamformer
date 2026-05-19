@@ -8,6 +8,11 @@
 // trigger during busy is ignored
 // second trigger after done works
 
+//Pulse cycles = 1,000. at 100Mhz. 
+//1,000 x 10 ns = 10 us (tiny pulse)
+
+//in vivado i changed this from a 9 bit counter to a 24 bit counter. 
+//in vivado i changed it pulse cycles to 24'd5000000
 
 module circuit (
     input wire clk,
