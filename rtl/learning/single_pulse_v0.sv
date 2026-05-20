@@ -11,7 +11,7 @@
 //Pulse cycles = 1,000. at 100Mhz. 
 //1,000 x 10 ns = 10 us (tiny pulse)
 
-module circuit (
+module single_pulse (
     input wire clk,
     input wire rst,    
     input wire trigger, //external button  
