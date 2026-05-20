@@ -11,7 +11,7 @@ module top_module (
         .clk(clk),
         .rst(rst),                 
         .enable(1'b1),              //.enable(enable) If you wanted a phyical switch/button to control enable. 
-        //.JA1(),                   //not connected
+        .JA1(),                   //not connected
         .pulse(pulse_from_blinky)   //output goes to internal
     );
 
