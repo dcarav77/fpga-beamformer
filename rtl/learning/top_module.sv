@@ -2,12 +2,12 @@ module top_module (
     input wire clk, 
     input wire rst,  
     output wire pulse_out
-)
+);
 
     //Internal wire- Blinky's pulse becomes the trigger source
     wire pulse_from_blinky;
 
-    blinky dut (
+    blinky dut1 (
         .clk(clk),
         .rst(rst),
         
@@ -18,7 +18,7 @@ module top_module (
     );
 
 
-    single_pulse dut (
+    single_pulse dut2 (
         .clk(clk),
         .rst(rst),
         .trigger(pulse_from_blinky),  //input comes from same wire
