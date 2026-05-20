@@ -1,7 +1,7 @@
 
 module blinky (
 	input clk,
-	input reset,
+	input rst,
     input enable,
 	
     output reg JA1,
@@ -14,7 +14,7 @@ module blinky (
   localparam ONE_SECOND = 27'd99_999_999;  
   
 always @(posedge clk) begin
-    if (reset) begin  //reset must clear pulse too
+    if (rst) begin  //reset must clear pulse too
        q <= 27'd0;
        JA1 <= 1'b0;
        pulse <= 1'b0; // i clear pulse but never set it to 1 first
