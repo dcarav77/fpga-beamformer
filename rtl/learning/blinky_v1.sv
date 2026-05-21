@@ -17,7 +17,7 @@ always @(posedge clk) begin
     if (rst) begin  //reset must clear pulse too
        q <= 27'd0;
        JA1 <= 1'b0;
-       pulse <= 1'b0; // i clear pulse but never set it to 1 first
+       pulse <= 1'b0; 
     end
     
     else if (enable) begin      
