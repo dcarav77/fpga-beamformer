@@ -4,7 +4,7 @@ module top_module (
     output wire pulse_out
 );
 
-    //Internal wire- Blinky's pulse becomes the trigger source
+    //Internal wire- blinky's output port named pulse is electrically connected to the internal wire pulse_from_blinky
     wire pulse_from_blinky;
 
     blinky dut1 (
