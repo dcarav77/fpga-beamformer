@@ -18,13 +18,9 @@ always @(posedge clk) begin
        q <= 27'd0;
        JA1 <= 1'b0;
        pulse <= 1'b0; // i clear pulse but never set it to 1 first
-
     end
     
-    else if (enable) begin
-            // ONLY HERE does counting happen
-            
-        
+    else if (enable) begin      
         if (q == ONE_SECOND) begin
             // Terminal count: wrap, generate pulse, toggle LED
             q <= 27'd0;  
