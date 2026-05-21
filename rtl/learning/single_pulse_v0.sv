@@ -14,7 +14,7 @@
 module single_pulse (
     input wire clk,
     input wire rst,    
-    input wire trigger, //external button  
+    input wire trigger, //external button  (blinky pulse output comes here)
     output reg pulse_out 
 
 );
