@@ -4,14 +4,14 @@ module top_module (
     output wire pulse_out
 );
 
-    //Internal wire- blinky's output port named pulse is electrically connected to the internal wire pulse_from_blinky
+    //Connects output of blinky.pulse → Input of single_pulse.trigger
     wire pulse_from_blinky;
 
     blinky dut1 (
         .clk(clk),
         .rst(rst),                 
         .enable(1'b1),              //.enable(enable) If you wanted a phyical switch/button to control enable. 
-        .JA1(),                   //not connected
+        .JA1(),                     //not connected
         .pulse(pulse_from_blinky)   //output goes to internal
     );
 
