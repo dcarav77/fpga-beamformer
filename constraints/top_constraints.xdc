@@ -10,3 +10,7 @@ set_property IOSTANDARD LVCMOS33 [get_ports rst]
 ## Output pulse pin (JA1 on PMOD)
 set_property PACKAGE_PIN J1 [get_ports pulse_out]
 set_property IOSTANDARD LVCMOS33 [get_ports pulse_out]
+
+## Configuration Bank
+set_property CFGBVS VCCO [current_design]
+set_property CONFIG_VOLTAGE 3.3 [current_design]
