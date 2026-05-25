@@ -25,7 +25,6 @@ module single_pulse (
     //internal registers: 
     //reg [9:0] counter;
     reg [23:0] counter;
-    reg edge_detector;
     reg trigger_prev;
     reg busy;
 
@@ -36,7 +35,6 @@ module single_pulse (
           //counter       <= 10'd0;
             counter       <= 24'd0;
             pulse_out     <= 1'b0; 
-            edge_detector <= 1'b0;
             busy          <= 1'b0;
         end
         
@@ -44,7 +42,6 @@ module single_pulse (
             // Store previous trigger value 
             trigger_prev  <= trigger; 
 
-        //if edge_detector AND not busy: 
             //start pulse
         if ((trigger && !trigger_prev) && !busy) begin     
             busy        <= 1'b1;
