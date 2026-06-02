@@ -1,6 +1,8 @@
 module top_module (
     input wire clk, 
-    input wire rst,  
+    input wire rst,
+    input wire echo_in,
+    output wire [32:0] echo_count,
     output wire pulse_out
 );
 
@@ -21,6 +23,14 @@ module top_module (
         .rst(rst),
         .trigger(pulse_from_blinky),  //input comes from same wire
         .pulse_out(pulse_out)
+    );
+
+
+    echo_timer dut2 (
+        .clk(clk),
+        .rst(rst),
+        .echo_in(echo_in),
+        .echo_count(echo_count)  // ← output to outside
     );
 
 endmodule
