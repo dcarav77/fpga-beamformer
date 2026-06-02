@@ -7,7 +7,7 @@
 // echo_timer:
 // counting MEASURES time
 
-module echo_time (
+module echo_timer (
     input wire clk,
     input wire rst,
     input wire echo_in, // ← INPUT from sensor
