@@ -26,7 +26,7 @@ module top_module (
     );
 
 
-    echo_timer dut2 (
+    echo_timer dut3 (
         .clk(clk),
         .rst(rst),
         .echo_in(echo_in),
