@@ -2,12 +2,12 @@ module top_module (
     input wire clk, 
     input wire rst,
     input wire echo_in,
-    output wire [32:0] echo_count,
     output wire pulse_out
 );
 
     //Connects output of blinky.pulse → Input of single_pulse.trigger
     wire pulse_from_blinky;
+    logic [32:0] echo_count,
 
     blinky dut1 (
         .clk(clk),
