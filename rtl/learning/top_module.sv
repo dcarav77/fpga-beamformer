@@ -7,7 +7,7 @@ module top_module (
 
     //Connects output of blinky.pulse → Input of single_pulse.trigger
     wire pulse_from_blinky;
-    logic [32:0] echo_count,
+    logic [32:0] echo_count;
 
     blinky dut1 (
         .clk(clk),
