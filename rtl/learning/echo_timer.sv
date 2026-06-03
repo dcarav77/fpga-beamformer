@@ -1,11 +1,14 @@
-// What the echo counter does
-// Instead of counting to create a pulse, it counts while ECHO is high.
+// 1. FPGA sends TRIG pulse
+// 2. HC-SR04 sends 8 ultrasonic bursts
+// 3. ECHO goes HIGH
+// 4. Your FPGA counter starts
+// 5. Sound hits book and returns
+// 6. ECHO goes LOW
+// 7. Your FPGA saves counter value
 
-// single_pulse:
-// counting CREATES time
-
-// echo_timer:
-// counting MEASURES time
+// At 100 MHz: 1 counter tick = 10 ns
+// So if echo_count = 100,000 then: 100,000 × 10 ns = 1 ms
+// That means the echo pulse was high for 1 ms
 
 module echo_timer (
     input wire clk,
@@ -27,21 +30,20 @@ module echo_timer (
                 measuring       <= 1'b0;
             end
 
+        //Echo goes HIGH, start measuring
         else begin
-            //Echo goes HIGH, start measuring
             if (!measuring && echo_in) begin
-                // Echo just went HIGH → start measuring
                 measuring <= 1'b1;
                 counter   <= 32'd0;
             end
-
-        else if ((measuring && echo_in)) begin
-                //Echo is still HIGH → keep counting
+        
+        //Echo is still HIGH → keep counting
+        else if ((measuring && echo_in)) begin 
                 counter <= counter + 1'b1;
             end
 
-        else if ((measuring && !echo_in))begin
-                // Echo signal finished- save the final counter value
+        // Echo signal finished -> save the final counter value
+        else if ((measuring && !echo_in))begin               
                 measuring   <= 1'b0;
                 echo_count  <= counter;
             end
