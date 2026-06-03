@@ -18,3 +18,7 @@ set_property IOSTANDARD LVCMOS33 [get_ports echo_in]
 ## Configuration Bank
 set_property CFGBVS VCCO [current_design]
 set_property CONFIG_VOLTAGE 3.3 [current_design]
+
+## UART
+set_property PACKAGE_PIN A18 [get_ports uart_tx]
+set_property IOSTANDARD LVCMOS33 [get_ports uart_tx]
