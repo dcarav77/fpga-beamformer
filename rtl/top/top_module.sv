@@ -1,0 +1,36 @@
+module top_module (
+    input wire clk, 
+    input wire rst,
+    input wire echo_in,
+    output wire pulse_out
+);
+
+    //Connects output of blinky.pulse → Input of single_pulse.trigger
+    wire pulse_from_blinky;
+    logic [31:0] echo_count;
+
+    blinky dut1 (
+        .clk(clk),
+        .rst(rst),                 
+        .enable(1'b1),              //.enable(enable) If you wanted a phyical switch/button to control enable. 
+        .JA1(),                     //not connected
+        .pulse(pulse_from_blinky)   //output goes to internal
+    );
+
+
+    single_pulse dut2 (
+        .clk(clk),
+        .rst(rst),
+        .trigger(pulse_from_blinky),  //input comes from same wire
+        .pulse_out(pulse_out)
+    );
+
+
+    echo_timer dut3 (
+        .clk(clk),
+        .rst(rst),
+        .echo_in(echo_in),
+        .echo_count(echo_count)  // ← output to outside
+    );
+
+endmodule
