@@ -8,7 +8,15 @@ module uart_tx (
     output reg        busy
 );
 
-    localparam integer CLKS_PER_BIT = 868; // 100MHz / 115200 baud
+    // 115,200 bits/sec UART. 1/115,200 = 8.68
+    // 8.68 µs / 10 ns≈ 868 clock cycles
+    localparam integer CLKS_PER_BIT = 868; 
+//This line assumes:
+//Baud rate = 115,200
+//Clock frequency = 100 MHz
+//100,000,000 / 115,200 ≈ 868
+//If you move this module to a different board (e.g., with a 50 MHz clock or 125 MHz clock), it will fail. 
+//The timing will be wrong, and your serial data will be garbage.
 
     reg [31:0] clk_count;
     reg [3:0]  bit_index;
@@ -16,7 +24,7 @@ module uart_tx (
 
     always @(posedge clk) begin
         if (rst) begin
-            uart_tx   <= 1'b1;  // UART idle high
+            uart_tx   <= 1'b1;  // UART IDLE's at HIGH
             busy      <= 1'b0;
             clk_count <= 32'd0;
             bit_index <= 4'd0;
@@ -24,7 +32,7 @@ module uart_tx (
         end else begin
 
             if (!busy) begin
-                uart_tx <= 1'b1;
+                uart_tx <= 1'b1;  //If not busy, keep line high
 
                 if (start) begin
                     busy      <= 1'b1;
