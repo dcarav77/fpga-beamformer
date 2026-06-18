@@ -1,3 +1,22 @@
+//-------------------------------------------------------------
+// Purpose:
+// Generates a slow timing event (once per second).
+//
+// This module DOES NOT directly drive the HC-SR04 sensor.
+//
+// It simply creates a short "pulse" signal that tells
+// single_pulse.sv when to generate a precise trigger pulse.
+//
+// Architecture:
+//
+// blinky
+//    ↓
+// pulse
+//    ↓
+// single_pulse
+//    ↓
+// pulse_out -> JA1 -> HC-SR04 TRIG
+//-------------------------------------------------------------
 
 module blinky (
 	input clk,
