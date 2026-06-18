@@ -25,7 +25,7 @@ module fsm_uart_tx #(
     //Port Declarations
     input wire clk,
     input wire rst,
-    input wire [7:0] byte_to_send, //Entire byte enters the uart at once
+    input wire [7:0] byte_to_send, //Entire byte enters the UART at once
     input wire tx_start,
 
     output reg uart_tx, //Serial protocol
