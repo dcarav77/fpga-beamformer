@@ -1,15 +1,22 @@
-// reset works
-// trigger starts pulse
-
-// pulse stays high for 1000 cycles // 10 bits
-// pulse goes low after terminal count
-
-// busy high during pulse
-// trigger during busy is ignored
-// second trigger after done works
-
-//Pulse cycles = 1,000. at 100Mhz. 
-//1,000 x 10 ns = 10 us (tiny pulse)
+//-------------------------------------------------------------
+// single_pulse_v0.sv
+//
+// Purpose:
+// Generates a precise 10 µs trigger pulse.
+//
+// Triggered by:
+//
+// blinky.pulse
+//
+// Output:
+//
+// pulse_out -> JA1 -> HC-SR04 TRIG
+//
+// Concepts:
+// - One-shot pulse generation
+// - Edge detection
+// - Clock cycle counting
+//-------------------------------------------------------------
 
 module single_pulse (
     input wire clk,
