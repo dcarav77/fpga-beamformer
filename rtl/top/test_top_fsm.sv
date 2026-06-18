@@ -43,6 +43,15 @@ module top_module (
         .busy(busy)
     );
 
+    echo_uart_bridge dut5 (
+        .clk(clk),
+        .rst(rst),
+        .echo_count(echo_count),
+        .busy(busy),
+        .byte_to_send(byte_to_send),
+        .tx_start(tx_start)
+    );
+
 endmodule
 
 
