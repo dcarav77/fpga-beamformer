@@ -5,6 +5,12 @@ module top_module (
     output wire pulse_out,
     output wire uart_tx
 );
+    
+    wire pulse_from_blinky;         // Connects output of blinky.pulse → Input of single_pulse.trigger
+    wire [31:0] echo_count;         // Stores measured ECHO pulse width in clock cycles
+    wire [7:0]  byte_to_send;       // 8 bit data that will transmitted over UART
+    wire        tx_start;           // One clock cycle signal that tells UART to begin transmitting
+    wire        busy;               
 
     blinky dut1 (
         .clk(clk),
