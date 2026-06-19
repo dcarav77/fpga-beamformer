@@ -3,7 +3,7 @@
 import serial
 import time
 
-PORT = "/dev/ttyUSB0"
+PORT = "/dev/ttyUSB1"
 BAUD = 115200
 
 def main():
