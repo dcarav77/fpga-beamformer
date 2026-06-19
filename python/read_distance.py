@@ -1,5 +1,3 @@
-# python/read_distance.py
-
 import serial
 
 PORT = "/dev/ttyUSB1"
@@ -10,16 +8,22 @@ SPEED_OF_SOUND_M_S = 343.0
 
 def echo_count_to_distance_cm(echo_count):
     echo_time_s = echo_count / CLOCK_HZ
-    distance_m = echo_time_s * SPEED_OF_SOUND_M_S / 2
-    return distance_m * 100
+    return echo_time_s * SPEED_OF_SOUND_M_S / 2 * 100
 
-ser = serial.Serial(PORT, BAUD, timeout=1)
+ser = serial.Serial(PORT, BAUD, timeout=2)
+ser.reset_input_buffer()
+
+print(f"Opened {PORT} at {BAUD}")
+print("Reading 4-byte echo_count packets...")
 
 while True:
     data = ser.read(4)
 
     if len(data) != 4:
+        print(f"timeout/incomplete: got {len(data)} bytes")
         continue
+
+    print(f"raw hex={data.hex()} dec={list(data)}")
 
     echo_count = int.from_bytes(data, byteorder="little", signed=False)
     distance_cm = echo_count_to_distance_cm(echo_count)
