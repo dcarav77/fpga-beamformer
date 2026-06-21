@@ -4,7 +4,7 @@
 //
 // This module DOES NOT directly drive the HC-SR04 sensor.
 //
-// It simply creates a short "pulse" signal that tells
+// It simply creates a short "pulse" every 1 second that tells
 // single_pulse.sv when to generate a precise trigger pulse.
 //
 // Architecture:
