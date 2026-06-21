@@ -2,33 +2,42 @@
 // periodic_pulse_generator.sv
 //
 // Purpose:
-// Generate a periodic timing event.
+// Generate a periodic one-clock timing pulse.
 //
-// This module serves as a scheduler for downstream modules
-// that require a slower update rate than the FPGA system clock.
+// This module acts as a measurement scheduler and produces a
+// single-clock 'tick' at a programmable interval.
 //
 // Current Usage:
+// Initiates a new HC-SR04 distance measurement.
 //
-// HC-SR04 measurement scheduler
+// periodic_pulse_generator
+//            ↓
+//     measurement_tick
+//            ↓
+//       single_pulse
+//            ↓
+//    10 µs trigger pulse
+//            ↓
+//           JA1
+//            ↓
+//         HC-SR04
+//            ↓
+//       echo_timer
+//            ↓
+//     echo_uart_bridge
+//            ↓
+//           UART
+//            ↓
+//          Python
 //
-// System Architecture:
-//
-// periodic_pulse_generator.sv
-//     ↓
-// single_pulse
-//     ↓
-// HC-SR04 trigger
-//     ↓
-// echo_timer
-//     ↓
-// UART
-//     ↓
-// Python
+// Parameters:
+// - CLOCK_HZ : FPGA system clock frequency
+// - PERIOD_MS: Time between measurements
 //
 // Notes:
-// - Current implementation: 1 Hz update rate.
-// - Assumes a 100 MHz Basys 3 clock.
-// - Future version may become a parameterized periodic timer.
+// - Outputs a one-clock pulse, not a toggle.
+// - Current system clock: 100 MHz (Basys 3).
+// - Reusable for any periodic scheduling task.
 //---------------------------------------------------------------
 
 module periodic_pulse_generator #(
@@ -46,18 +55,22 @@ module periodic_pulse_generator #(
 
     always @ (posedge clk) begin
         if (rst) begin
-            counter     <= 0;
-            pulse_out   <= 0;
-        end
+            counter     <= 32'd0;
+            pulse_out   <= 1'b0;
+        
+        end else begin
 
-        else if (counter == COUNT_MAX) begin
-            counter     <= 0;
-            pulse_out   <= ~pulse_out;
+        pulse_out   <= 1'b0; // default low
+        
+        if (counter == COUNT_MAX) begin
+            counter     <= 32'd0;
+            pulse_out   <= 1'b1; // high for one clock only
         end
 
         else begin
             counter     <= counter + 1;
         end
+     end
     end
 endmodule
 
