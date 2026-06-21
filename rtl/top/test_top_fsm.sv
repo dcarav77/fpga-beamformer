@@ -12,7 +12,10 @@ module top_module (
     wire        tx_start;           // One clock cycle signal that tells UART to begin transmitting
     wire        busy;               
 
-    periodic_pulse_generator dut1 (
+    periodic_pulse_generator #(
+        .CLOCK_HZ(100_000_000),
+        .PERIOD_MS(1000)
+    ) dut1 (
         .clk(clk),
         .rst(rst),                                  
         .pulse_out(measurement_tick)
