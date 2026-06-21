@@ -6,7 +6,7 @@
 //
 // Triggered by:
 //
-// blinky.pulse
+// single pulse generator
 //
 // Output:
 //
@@ -21,7 +21,7 @@
 module single_pulse (
     input wire clk,
     input wire rst,    
-    input wire trigger, //external button  (blinky pulse output comes here)
+    input wire trigger, //external button  (periodic pulse gen output comes here)
     output reg pulse_out 
 
 );
