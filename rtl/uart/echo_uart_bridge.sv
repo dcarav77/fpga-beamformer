@@ -62,7 +62,7 @@ module echo_uart_bridge (
 
                 LOAD_BYTE: begin
                     case (byte_index)
-                        3'd0: byte_to_send <= 8'hAA;
+                        3'd0: byte_to_send <= 8'hAA;                    // ← START BYTE added here!
                         3'd1: byte_to_send <= latched_echo_count[7:0];
                         3'd2: byte_to_send <= latched_echo_count[15:8];
                         3'd3: byte_to_send <= latched_echo_count[23:16];
