@@ -97,7 +97,7 @@ module fsm_uart_tx #(
 
                 DATA: begin
                    //Port Declartions
-                    uart_tx     <=  data_reg[bit_index]; 
+                    uart_tx     <=  data_reg[bit_index]; //<- One bit at a time
                     busy        <= 1'b1;    //true busy
 
                     //Condition 1:
