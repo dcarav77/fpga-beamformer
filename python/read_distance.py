@@ -32,18 +32,51 @@
 #      - These 4 bytes contain the 32-bit echo_count (LSB first)
 #      - int.from_bytes() recombines the 4 bytes into a single integer
 #
-#   4. DISTANCE CALCULATION:
-#      - echo_count = number of clock cycles the ECHO pulse lasted
-#      - echo_time_s = echo_count / CLOCK_HZ (convert cycles to seconds)
-#      - distance_m = echo_time_s * SPEED_OF_SOUND_M_S / 2 (round-trip / 2)
-#      - distance_cm = distance_m * 100 (convert to centimeters)
+#   4. DISTANCE CALCULATION (THE MATH):
+#
+#      The FPGA counts clock cycles while the ECHO pin is HIGH.
+#      Each clock cycle = 10 ns (1/100,000,000 second).
+#
+#      Step 1: Convert clock cycles to time (seconds)
+#              echo_time_s = echo_count / CLOCK_HZ
+#
+#      Example: echo_count = 112,209
+#               echo_time_s = 112,209 / 100,000,000
+#               echo_time_s = 0.00112209 seconds
+#
+#      Step 2: Convert time to round-trip distance (meters)
+#              Sound travels at 343 m/s through air.
+#              distance_round_trip_m = echo_time_s × SPEED_OF_SOUND_M_S
+#
+#      Example: distance_round_trip_m = 0.00112209 × 343
+#               distance_round_trip_m = 0.3848 meters
+#
+#      Step 3: Convert round-trip to one-way distance (meters)
+#              The sound went: Sensor → Object → Sensor (round trip!)
+#              So we divide by 2 to get the one-way distance.
+#              distance_one_way_m = distance_round_trip_m / 2
+#
+#      Example: distance_one_way_m = 0.3848 / 2
+#               distance_one_way_m = 0.1924 meters
+#
+#      Step 4: Convert meters to centimeters
+#              distance_cm = distance_one_way_m × 100
+#
+#      Example: distance_cm = 0.1924 × 100
+#               distance_cm = 19.24 cm  
+#
+#      COMPLETE FORMULA:
+#      distance_cm = (echo_count / CLOCK_HZ) × SPEED_OF_SOUND_M_S / 2 × 100
+#
+#      Why divide by 2?   → Sound travels to object AND back (round trip)
+#      Why multiply by 100? → Convert meters to centimeters
 #
 # Data Flow Example:
 #   FPGA sends:     AA 51 B6 01 00
 #   Python finds:   AA (start byte)
 #   Reads next 4:   51 B6 01 00
 #   Reconstructs:   0x0001B651 = 112,209
-#   Calculates:     112,209 / 100,000,000 * 343 / 2 * 100 = 19.24 cm
+#   Calculates:     112,209 / 100,000,000 × 343 / 2 × 100 = 19.24 cm
 #
 # Notes:
 #   - The HC-SR04 has a range of 2 cm to 400 cm
