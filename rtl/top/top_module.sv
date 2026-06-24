@@ -32,7 +32,8 @@ module top_module (
         .clk(clk),
         .rst(rst),
         .echo_in(echo_in),
-        .echo_count(echo_count)
+        .echo_count(echo_count),
+        .measurement_ready(measurement_ready)
     );
 
     fsm_uart_tx dut4 (
@@ -50,7 +51,8 @@ module top_module (
         .echo_count(echo_count),
         .busy(busy),
         .byte_to_send(byte_to_send),
-        .tx_start(tx_start)
+        .tx_start(tx_start),
+        .measurement_ready(measurement_ready)
     );
 
 endmodule
