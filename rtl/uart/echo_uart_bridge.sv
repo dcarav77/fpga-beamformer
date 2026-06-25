@@ -1,29 +1,9 @@
-//---------------------------------------------------------------
-// echo_uart_bridge.sv
-//
-// Purpose:
-// Packetize a 32-bit echo_count value and send it over UART.
-//
-// Packet format:
-//   0xAA
-//   echo_count[7:0]
-//   echo_count[15:8]
-//   echo_count[23:16]
-//   echo_count[31:24]
-//
-// Notes:
-// - UART sends one byte at a time.
-// - byte_to_send is loaded first.
-// - tx_start is pulsed one clock later.
-//---------------------------------------------------------------
-
 module echo_uart_bridge (
     input  wire        clk,
     input  wire        rst,
-
     input  wire [31:0] echo_count,
+    input  wire        measurement_ready,  // ← NEW!
     input  wire        busy,
-
     output reg  [7:0]  byte_to_send,
     output reg         tx_start
 );
@@ -33,43 +13,40 @@ module echo_uart_bridge (
     localparam START_TX  = 2'd2;
     localparam WAIT_BUSY = 2'd3;
 
-    reg [1:0]  state;
-    reg [31:0] last_echo_count;
-    reg [31:0] latched_echo_count;
+    reg [1:0]  state; 
+    reg [31:0] echo_count_snapshot;
     reg [2:0]  byte_index;
 
     always @(posedge clk) begin
         if (rst) begin
             state              <= IDLE;
             byte_to_send       <= 8'd0;
-            tx_start           <= 1'b0;
-            last_echo_count    <= 32'd0;
-            latched_echo_count <= 32'd0;
+            tx_start           <= 1'b0;       
+            echo_count_snapshot<= 32'd0;
             byte_index         <= 3'd0;
+        
         end else begin
+            
             tx_start <= 1'b0;
 
             case (state)
-
                 IDLE: begin
-                    if (echo_count != last_echo_count) begin
-                        latched_echo_count <= echo_count;
-                        last_echo_count    <= echo_count;
-                        byte_index         <= 3'd0;
-                        state              <= LOAD_BYTE;
+                    if (measurement_ready) begin
+                        echo_count_snapshot <= echo_count;  //Freeze, take a photo!               
+                        byte_index          <= 3'd0;
+                        state               <= LOAD_BYTE;
                     end
                 end
 
                 LOAD_BYTE: begin
                     case (byte_index)
-                        3'd0: byte_to_send <= 8'hAA;                    // ← START BYTE added here!
-                        3'd1: byte_to_send <= latched_echo_count[7:0];
-                        3'd2: byte_to_send <= latched_echo_count[15:8];
-                        3'd3: byte_to_send <= latched_echo_count[23:16];
-                        3'd4: byte_to_send <= latched_echo_count[31:24];
+                        3'd0: byte_to_send <= 8'hAA;
+                        3'd1: byte_to_send <= echo_count_snapshot[7:0];
+                        3'd2: byte_to_send <= echo_count_snapshot[15:8];
+                        3'd3: byte_to_send <= echo_count_snapshot[23:16];
+                        3'd4: byte_to_send <= echo_count_snapshot[31:24];
                         default: byte_to_send <= 8'd0;
                     endcase
-
                     state <= START_TX;
                 end
 
@@ -93,12 +70,8 @@ module echo_uart_bridge (
                     end
                 end
 
-                default: begin
-                    state <= IDLE;
-                end
-
+                default: state <= IDLE;
             endcase
         end
     end
-
 endmodule
