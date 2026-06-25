@@ -9,6 +9,10 @@ build/
 *.runs
 *.xpr
 
+# Vivado temporary files
+.Xil/
+xvlog.pb
+
 # OS junk
 .DS_Store
 
