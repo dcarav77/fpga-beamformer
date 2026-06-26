@@ -33,10 +33,9 @@ module echo_timer (
                 measurement_ready   <= 1'b0;
         end else begin
         //Clear measurment_ready every cycle
-                measurement_ready   <= 1'b0;
-        end
+                measurement_ready   <= 1'b0;    // Default every cycle
         //Echo goes HIGH, start measuring
-        else begin
+
             if (!measuring && echo_in) begin
                 measuring           <= 1'b1;
                 counter             <= 32'd0;
@@ -45,7 +44,8 @@ module echo_timer (
         //Echo is still HIGH → keep counting
         else if ((measuring && echo_in)) begin 
                 counter <= counter + 1'b1;
-            end
+        end
+            
 
         // Echo signal finished -> save the final counter value
         else if ((measuring && !echo_in))begin               
