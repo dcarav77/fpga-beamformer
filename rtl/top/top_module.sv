@@ -10,7 +10,8 @@ module top_module (
     wire [31:0] echo_count;         // Stores measured ECHO pulse width in clock cycles
     wire [7:0]  byte_to_send;       // 8 bit data that will transmitted over UART
     wire        tx_start;           // One clock cycle signal that tells UART to begin transmitting
-    wire        busy;               
+    wire        busy;
+    wire        measurement_ready;                 
 
     periodic_pulse_generator #(
         .CLOCK_HZ(100_000_000),
