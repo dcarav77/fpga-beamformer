@@ -15,7 +15,7 @@ module top_module (
 
     periodic_pulse_generator #(
         .CLOCK_HZ(100_000_000),
-        .PERIOD_MS(1000)
+        .PERIOD_MS(5000) //was 1000
     ) dut1 (
         .clk(clk),
         .rst(rst),                                  
