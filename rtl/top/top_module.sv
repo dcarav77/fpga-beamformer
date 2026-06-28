@@ -6,6 +6,7 @@ module top_module (
     output wire uart_tx
 );
     
+    //Connecting Wires (Cables)
     wire measurement_tick;          // Connects output of periodic_pulse_generator → Input of single_pulse.trigger
     wire [31:0] echo_count;         // Stores measured ECHO pulse width in clock cycles
     wire [7:0]  byte_to_send;       // 8 bit data that will transmitted over UART
