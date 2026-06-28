@@ -28,10 +28,6 @@ module single_pulse #(
     output reg pulse_out 
 
 );
-
-  //localparam PULSE_CYCLES = 10'd1000;
-  //localparam PULSE_CYCLES = 24'd5000000;
-
   // Calculate how many clock cycles for the pulse
   localparam int PULSE_CYCLES = (CLOCK_HZ / 1_000_000) * PULSE_US;
 
@@ -40,8 +36,6 @@ module single_pulse #(
 
     //internal registers:
     reg[COUNTER_WIDTH - 1:0] counter;
-  //reg [9:0] counter;
-  //reg [23:0] counter;
     reg trigger_prev;
     reg busy;
 
