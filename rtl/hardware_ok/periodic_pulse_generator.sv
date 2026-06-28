@@ -49,7 +49,8 @@ module periodic_pulse_generator #(
     output reg pulse_out
 );
 
-    localparam int COUNT_MAX = (CLOCK_HZ * PERIOD_MS / 1000) - 1;
+    //localparam int COUNT_MAX = (CLOCK_HZ * PERIOD_MS / 1000) - 1;
+    localparam longint COUNT_MAX = ((longint'(CLOCK_HZ) * PERIOD_MS) / 1000) - 1;
 
     reg [31:0] counter;
 
