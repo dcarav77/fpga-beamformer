@@ -49,8 +49,8 @@ module periodic_pulse_generator #(
     output reg pulse_out
 );
 
-    //localparam int COUNT_MAX = (CLOCK_HZ * PERIOD_MS / 1000) - 1;
-    localparam longint COUNT_MAX = ((longint'(CLOCK_HZ) * PERIOD_MS) / 1000) - 1;
+    //localparam int COUNT_MAX = (CLOCK_HZ * PERIOD_MS / 1000) - 1;  //100M x 5,000 = 500 billion (overflow)
+    localparam longint COUNT_MAX = ((longint'(CLOCK_HZ) * PERIOD_MS) / 1000) - 1; //Forces 64 bits then divide by 1k
 
     reg [31:0] counter;
 
@@ -65,7 +65,7 @@ module periodic_pulse_generator #(
         
         if (counter == COUNT_MAX) begin
             counter     <= 32'd0;
-            pulse_out   <= 1'b1; // high for one clock only
+            pulse_out   <= 1'b1; // high for one clock only (seen in waveform)
         end
 
         else begin
