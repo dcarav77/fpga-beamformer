@@ -12,6 +12,7 @@
 - **learning/** → code you're writing now (may be broken)
 - **ready/** → works in simulation
 - **hardware_ok/** → verified on real FPGA
+- **uart/** → UART communication modules used to transmit FPGA measurements to a host computer.
 - **top/** → final system that connects everything
 
 👉 A **top module** is the final assembled system that connects smaller modules into real hardware.
