@@ -1,15 +1,39 @@
 ┌─────────────────────────────────────────────────────────────┐
 │                        Current System                       │
 │                                                             │
-│  echo_timer → echo_uart_bridge → UART → Python             │
+│  echo_timer → echo_uart_bridge → UART → Python              │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────┐
-│                    With FIFO (More Robust)                  │
+│                    With FIFO                                │
 │                                                             │
-│  echo_timer → FIFO → echo_uart_bridge → UART → Python      │
+│  echo_timer → FIFO → echo_uart_bridge → UART → Python       │
 │                 ↑                                           │
 │            (queue of measurements)                          │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
+
+//-----------------------------------------------------------------------------------------
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                                                                      │
+│  echo_timer              FIFO              echo_uart_bridge          │
+│  ┌──────────────┐       ┌──────────────┐   ┌──────────────┐          │
+│  │              │       │              │   │              │          │
+│  │ echo_count   │──────▶│ data_in      │   │              │          │
+│  │              │       │              │   │              │          │
+│  │ measurement_ │──────▶│ write_enable │   │              │          │
+│  │ ready        │       │              │   │              │          │
+│  │              │       │              │   │              │          │
+│  │              │       │ data_out     │──▶│ fifo_data_in │          │
+│  │              │       │              │   │              │          │
+│  │              │       │ empty        │──▶│ fifo_empty   │          │
+│  │              │       │              │   │              │          │
+│  │              │       │ read_enable  │◀──│ fifo_read_   │          │
+│  │              │       │              │   │ enable       │          │
+│  └──────────────┘       └──────────────┘   └──────────────┘          │
+│                                                                      │
+│  NEW SIGNAL: fifo_read_enable = "Bridge asks FIFO for next data"     │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────────┘

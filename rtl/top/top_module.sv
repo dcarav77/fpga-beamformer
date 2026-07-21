@@ -12,7 +12,17 @@ module top_module (
     wire [7:0]  byte_to_send;       // 8 bit data that will transmitted over UART
     wire        tx_start;           // One clock cycle signal that tells UART to begin transmitting
     wire        busy;
-    wire        measurement_ready;                 
+
+
+    //FIFO wires 
+    wire        fifo_read_enable;
+    wire        full;
+    wire        empty;
+    wire [31:0] echo_count_out;
+    wire        measurement_ready;
+
+    //left  side of. is the module port
+    //right side of. is the wire                 
 
     periodic_pulse_generator #(
         .CLOCK_HZ(100_000_000),
@@ -50,11 +60,23 @@ module top_module (
     echo_uart_bridge dut5 (
         .clk(clk),
         .rst(rst),
-        .echo_count(echo_count),
+        .echo_count(echo_count_out),
+        .fifo_empty(empty),
         .busy(busy),
         .byte_to_send(byte_to_send),
         .tx_start(tx_start),
-        .measurement_ready(measurement_ready)
+        .fifo_read_enable(fifo_read_enable)
+    );
+
+    fifo_echo_bridge dut6 (
+        .clk(clk),
+        .rst(rst),
+        .echo_count_in(echo_count),
+        .measurement_ready_in(measurement_ready),
+        .echo_count_out(echo_count),
+        .fifo_read_enable(fifo_read_enable),
+        .full(full),
+        .empty(empty)     
     );
 
 endmodule

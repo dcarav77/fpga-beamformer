@@ -14,8 +14,8 @@ module echo_timer (
     input wire clk,
     input wire rst,
     input wire echo_in, // ← INPUT from sensor
-    output reg [31:0] echo_count,
-    output reg measurement_ready
+    output reg [31:0] echo_count,   // the "data" being stored
+    output reg measurement_ready    // store this now. write command
     
    
 );
